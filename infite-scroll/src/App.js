@@ -5,6 +5,7 @@ import { useState,useEffect } from 'react';
 function App() {
   const [data, setData] = useState([]);
   const [page, setpage] = useState(1);
+  const [loading, setLoading] = useState(false);
   
   useEffect(()=>{
     getData();
@@ -25,9 +26,11 @@ function App() {
   }
 
   const getData = ()=>{
+    setLoading(true)
     fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=${page}&sparkline=false`)
     .then(response=>response.json())
     .then((res)=>(setData(prev=>[...prev,...res])))
+    .finally(()=>setLoading(false))
   }
 
   return (
@@ -43,6 +46,11 @@ function App() {
           </div>
         ))}
       </div>
+        {loading && (
+          <div style={{width:'30%',margin:"auto"}}>
+            <img src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/b6e0b072897469.5bf6e79950d23.gif" alt="" />
+          </div>)
+        }
     </>
   );
 }
