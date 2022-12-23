@@ -8,25 +8,26 @@ function App() {
   
   useEffect(()=>{
     getData();
-  },[]);
+  },[page]);
 
   useEffect(()=>{
     window.addEventListener("scroll",handleScroll);
   },[]);
 
   const handleScroll = ()=>{
-    console.log("Height",document.documentElement.scrollHeight);
-    console.log("top height",document.documentElement.scrollTop);
-    console.log("inner height",window.innerHeight);
+    // console.log("Height",document.documentElement.scrollHeight);
+    // console.log("top height",document.documentElement.scrollTop);
+    // console.log("inner height",window.innerHeight);
 
+    if(document.documentElement.scrollTop + window.innerHeight + 1 >= document.documentElement.scrollHeight){
+      setpage((prev)=>prev+1);
+    }
   }
 
   const getData = ()=>{
     fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=${page}&sparkline=false`)
     .then(response=>response.json())
-    .then(res=>(
-      setData(res)
-    ))
+    .then((res)=>(setData(prev=>[...prev,...res])))
   }
 
   return (
@@ -34,7 +35,7 @@ function App() {
       <h1>Crypto Currencies</h1>
       <div className="cryptos">
         {data?.map((crypto)=>(
-          <div key={crypto.id}>
+          <div>
             <div>
               <img src={crypto.image} alt=""/>
             </div>
