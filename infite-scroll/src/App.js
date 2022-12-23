@@ -1,15 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
 import { useState,useEffect } from 'react';
 
 function App() {
   const [data, setData] = useState([]);
-
+  const [page, setpage] = useState(1);
+  
   useEffect(()=>{
     getData();
   },[]);
 
+  useEffect(()=>{
+    window.addEventListener("scroll",handleScroll);
+  },[]);
+
+  const handleScroll = ()=>{
+    console.log("Height",document.documentElement.scrollHeight);
+    console.log("top height",document.documentElement.scrollTop);
+    console.log("inner height",window.innerHeight);
+  }
+
   const getData = ()=>{
-    fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+    fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=${page}&sparkline=false`)
     .then(response=>response.json())
     .then(res=>(
       setData(res)
@@ -20,7 +32,7 @@ function App() {
     <>
       <h1>Crypto Currencies</h1>
       <div className="cryptos">
-        {data.map((crypto)=>(
+        {data?.map((crypto)=>(
           <div key={crypto.id}>
             <div>
               <img src={crypto.image} alt=""/>
