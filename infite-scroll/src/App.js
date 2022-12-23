@@ -18,6 +18,8 @@ function App() {
     console.log("Height",document.documentElement.scrollHeight);
     console.log("top height",document.documentElement.scrollTop);
     console.log("inner height",window.innerHeight);
+
+    
   }
 
   const getData = ()=>{
