@@ -19,7 +19,6 @@ function App() {
     // console.log("Height",document.documentElement.scrollHeight);
     // console.log("top height",document.documentElement.scrollTop);
     // console.log("inner height",window.innerHeight);
-
     if(document.documentElement.scrollTop + window.innerHeight + 1 >= document.documentElement.scrollHeight){
       setpage((prev)=>prev+1);
     }
